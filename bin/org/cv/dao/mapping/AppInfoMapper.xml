@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cv.dao.AppInfoDao" >
+  <resultMap id="AppInfo" type="org.cv.model.AppInfo" >
+    <id column="App_ID" property="appId" jdbcType="BIGINT" />
+    <result column="App_Name" property="appName" jdbcType="VARCHAR" />
+    <result column="Logo_Path" property="logoPath" jdbcType="VARCHAR" />
+    <result column="Enterprise_ID" property="enterpriseId" jdbcType="BIGINT" />
+    <result column="App_Type" property="appType" jdbcType="VARCHAR" />
+    <result column="Sys_Type" property="sysType" jdbcType="VARCHAR" />
+    <result column="Device_Type" property="deviceType" jdbcType="VARCHAR" />
+    <result column="Publisher" property="publisher" jdbcType="VARCHAR" />
+    <result column="Is_Enable" property="isEnable" jdbcType="INTEGER" />
+    <result column="Create_Time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="Update_Time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="Behavior" property="behavior" jdbcType="VARCHAR" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="Rank_Pic_Path" property="rankPicPath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    App_ID, App_Name, Logo_Path, Enterprise_ID, App_Type, Sys_Type, Device_Type, Publisher, 
+    Is_Enable, Create_Time, Update_Time, Behavior, Remark, Rank_Pic_Path
+  </sql>
+  
+  <!-- 检查数据库是否有值，如果有则返回appid -->
+    <select id="checkDateBase" resultType="String" parameterType="org.cv.model.AppInfo" >
+    SELECT
+	App_ID
+		FROM
+		tbl_app_info
+		WHERE
+		Device_Type = #{deviceType}
+		AND (Remark = #{appName} OR App_Name = #{appName})
+		LIMIT 1
+  </select>
+  
+  
+    <!-- 检查数据库是否有值，如果有则返回true -->
+    <select id="checkRank" resultType="boolean" parameterType="org.cv.model.AppInfo" >
+  		SELECT
+			App_ID
+		FROM
+			tbl_app_rank
+		WHERE
+			App_ID = #{appId}
+		AND Rank_Date =#{appRank.rankDate}
+		AND Rank_App_Type =#{appRank.rankAppType}
+		AND App_List_Type =#{appRank.appListType}
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="AppInfo" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_app_info
+    where App_ID = #{appId,jdbcType=BIGINT}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tbl_app_info
+    where App_ID = #{appId,jdbcType=BIGINT}
+  </delete>
+  
+  <!-- 插入并返回刚刚插入的主键 -->
+  <insert id="insertAndGetAppId" parameterType="org.cv.model.AppInfo" >
+	<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="App_ID">
+		  SELECT LAST_INSERT_ID() AS App_ID  
+	</selectKey>
+	INSERT INTO tbl_app_info 
+	(
+	Enterprise_ID,
+	App_Type,
+	Sys_Type,
+	Device_Type,
+	Publisher,
+	Is_Enable,
+	Create_Time,
+	Update_Time,
+	Behavior,
+	Remark,
+	Rank_Pic_Path
+	)
+	VALUES
+	(
+		#{appId,jdbcType=BIGINT}, #{appName,jdbcType=VARCHAR}, #{logoPath,jdbcType=VARCHAR}, 
+		#{enterpriseId,jdbcType=BIGINT}, #{appType,jdbcType=VARCHAR}, #{sysType,jdbcType=VARCHAR}, 
+		#{deviceType,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, #{isEnable,jdbcType=INTEGER}, 
+		#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{behavior,jdbcType=VARCHAR}, 
+		#{remark,jdbcType=VARCHAR}, #{rankPicPath,jdbcType=VARCHAR}
+	)
+</insert>
+
+  
+  <!-- 插入基础表 -->
+  <insert id="insert" parameterType="org.cv.model.AppInfo" >
+    insert into tbl_app_info (App_ID, App_Name, Logo_Path, 
+      Enterprise_ID, App_Type, Sys_Type, 
+      Device_Type, Publisher, Is_Enable, 
+      Create_Time, Update_Time, Behavior, 
+      Remark, Rank_Pic_Path)
+    values (#{appId,jdbcType=BIGINT}, #{appName,jdbcType=VARCHAR}, #{logoPath,jdbcType=VARCHAR}, 
+      #{enterpriseId,jdbcType=BIGINT}, #{appType,jdbcType=VARCHAR}, #{sysType,jdbcType=VARCHAR}, 
+      #{deviceType,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, #{isEnable,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{behavior,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{rankPicPath,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="org.cv.model.AppInfo" >
+    insert into tbl_app_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        App_ID,
+      </if>
+      <if test="appName != null" >
+        App_Name,
+      </if>
+      <if test="logoPath != null" >
+        Logo_Path,
+      </if>
+      <if test="enterpriseId != null" >
+        Enterprise_ID,
+      </if>
+      <if test="appType != null" >
+        App_Type,
+      </if>
+      <if test="sysType != null" >
+        Sys_Type,
+      </if>
+      <if test="deviceType != null" >
+        Device_Type,
+      </if>
+      <if test="publisher != null" >
+        Publisher,
+      </if>
+      <if test="isEnable != null" >
+        Is_Enable,
+      </if>
+      <if test="createTime != null" >
+        Create_Time,
+      </if>
+      <if test="updateTime != null" >
+        Update_Time,
+      </if>
+      <if test="behavior != null" >
+        Behavior,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="rankPicPath != null" >
+        Rank_Pic_Path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        #{appId,jdbcType=BIGINT},
+      </if>
+      <if test="appName != null" >
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="logoPath != null" >
+        #{logoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseId != null" >
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="appType != null" >
+        #{appType,jdbcType=VARCHAR},
+      </if>
+      <if test="sysType != null" >
+        #{sysType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null" >
+        #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null" >
+        #{isEnable,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="behavior != null" >
+        #{behavior,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="rankPicPath != null" >
+        #{rankPicPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.cv.model.AppInfo" >
+    update tbl_app_info
+    <set >
+      <if test="appName != null" >
+        App_Name = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="logoPath != null" >
+        Logo_Path = #{logoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseId != null" >
+        Enterprise_ID = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="appType != null" >
+        App_Type = #{appType,jdbcType=VARCHAR},
+      </if>
+      <if test="sysType != null" >
+        Sys_Type = #{sysType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        Device_Type = #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null" >
+        Publisher = #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null" >
+        Is_Enable = #{isEnable,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        Create_Time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        Update_Time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="behavior != null" >
+        Behavior = #{behavior,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="rankPicPath != null" >
+        Rank_Pic_Path = #{rankPicPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where App_ID = #{appId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.cv.model.AppInfo" >
+    update tbl_app_info
+    set App_Name = #{appName,jdbcType=VARCHAR},
+      Logo_Path = #{logoPath,jdbcType=VARCHAR},
+      Enterprise_ID = #{enterpriseId,jdbcType=BIGINT},
+      App_Type = #{appType,jdbcType=VARCHAR},
+      Sys_Type = #{sysType,jdbcType=VARCHAR},
+      Device_Type = #{deviceType,jdbcType=VARCHAR},
+      Publisher = #{publisher,jdbcType=VARCHAR},
+      Is_Enable = #{isEnable,jdbcType=INTEGER},
+      Create_Time = #{createTime,jdbcType=TIMESTAMP},
+      Update_Time = #{updateTime,jdbcType=TIMESTAMP},
+      Behavior = #{behavior,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      Rank_Pic_Path = #{rankPicPath,jdbcType=VARCHAR}
+    where App_ID = #{appId,jdbcType=BIGINT}
+  </update>
+</mapper>

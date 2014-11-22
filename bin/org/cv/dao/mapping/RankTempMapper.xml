@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cv.dao.RankTempDao" >
+  <resultMap id="BaseResultMap" type="org.cv.model.RankTemp" >
+    <id column="Id" property="id" jdbcType="BIGINT" />
+    <result column="App_ID" property="appId" jdbcType="VARCHAR" />
+    <result column="App_Name" property="appName" jdbcType="VARCHAR" />
+    <result column="This_Rank" property="thisRank" jdbcType="INTEGER" />
+    <result column="Week_Ago_Rank" property="weekAgoRank" jdbcType="INTEGER" />
+    <result column="Min_Rank" property="minRank" jdbcType="INTEGER" />
+    <result column="Logo_Path" property="logoPath" jdbcType="VARCHAR" />
+    <result column="Rank_App_Type" property="rankAppType" jdbcType="VARCHAR" />
+    <result column="App_Type_Name" property="appTypeName" jdbcType="VARCHAR" />
+    <result column="Sys_Type" property="sysType" jdbcType="VARCHAR" />
+    <result column="Device_Type" property="deviceType" jdbcType="VARCHAR" />
+    <result column="Publisher" property="publisher" jdbcType="VARCHAR" />
+    <result column="Create_Time" property="createTime" jdbcType="DATE" />
+    <result column="Update_Time" property="updateTime" jdbcType="DATE" />
+    <result column="Rank_Date" property="rankDate" jdbcType="DATE" />
+    <result column="Rank_Type" property="rankType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, App_ID, App_Name, This_Rank, Week_Ago_Rank, Min_Rank, Logo_Path, Rank_App_Type, 
+    App_Type_Name, Sys_Type, Device_Type, Publisher, Create_Time, Update_Time, Rank_Date, 
+    Rank_Type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_app_rank_temp
+    where Id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tbl_app_rank_temp
+    where Id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.cv.model.RankTemp" >
+    insert into tbl_app_rank_temp (Id, App_ID, App_Name, 
+      This_Rank, Week_Ago_Rank, Min_Rank, 
+      Logo_Path, Rank_App_Type, App_Type_Name, 
+      Sys_Type, Device_Type, Publisher, 
+      Create_Time, Update_Time, Rank_Date, 
+      Rank_Type)
+    values (#{id,jdbcType=BIGINT}, #{appId,jdbcType=VARCHAR}, #{appName,jdbcType=VARCHAR}, 
+      #{thisRank,jdbcType=INTEGER}, #{weekAgoRank,jdbcType=INTEGER}, #{minRank,jdbcType=INTEGER}, 
+      #{logoPath,jdbcType=VARCHAR}, #{rankAppType,jdbcType=VARCHAR}, #{appTypeName,jdbcType=VARCHAR}, 
+      #{sysType,jdbcType=VARCHAR}, #{deviceType,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=DATE}, #{updateTime,jdbcType=DATE}, #{rankDate,jdbcType=DATE}, 
+      #{rankType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.cv.model.RankTemp" >
+    insert into tbl_app_rank_temp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="appId != null" >
+        App_ID,
+      </if>
+      <if test="appName != null" >
+        App_Name,
+      </if>
+      <if test="thisRank != null" >
+        This_Rank,
+      </if>
+      <if test="weekAgoRank != null" >
+        Week_Ago_Rank,
+      </if>
+      <if test="minRank != null" >
+        Min_Rank,
+      </if>
+      <if test="logoPath != null" >
+        Logo_Path,
+      </if>
+      <if test="rankAppType != null" >
+        Rank_App_Type,
+      </if>
+      <if test="appTypeName != null" >
+        App_Type_Name,
+      </if>
+      <if test="sysType != null" >
+        Sys_Type,
+      </if>
+      <if test="deviceType != null" >
+        Device_Type,
+      </if>
+      <if test="publisher != null" >
+        Publisher,
+      </if>
+      <if test="createTime != null" >
+        Create_Time,
+      </if>
+      <if test="updateTime != null" >
+        Update_Time,
+      </if>
+      <if test="rankDate != null" >
+        Rank_Date,
+      </if>
+      <if test="rankType != null" >
+        Rank_Type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null" >
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="thisRank != null" >
+        #{thisRank,jdbcType=INTEGER},
+      </if>
+      <if test="weekAgoRank != null" >
+        #{weekAgoRank,jdbcType=INTEGER},
+      </if>
+      <if test="minRank != null" >
+        #{minRank,jdbcType=INTEGER},
+      </if>
+      <if test="logoPath != null" >
+        #{logoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="rankAppType != null" >
+        #{rankAppType,jdbcType=VARCHAR},
+      </if>
+      <if test="appTypeName != null" >
+        #{appTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="sysType != null" >
+        #{sysType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null" >
+        #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="rankDate != null" >
+        #{rankDate,jdbcType=DATE},
+      </if>
+      <if test="rankType != null" >
+        #{rankType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.cv.model.RankTemp" >
+    update tbl_app_rank_temp
+    <set >
+      <if test="appId != null" >
+        App_ID = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null" >
+        App_Name = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="thisRank != null" >
+        This_Rank = #{thisRank,jdbcType=INTEGER},
+      </if>
+      <if test="weekAgoRank != null" >
+        Week_Ago_Rank = #{weekAgoRank,jdbcType=INTEGER},
+      </if>
+      <if test="minRank != null" >
+        Min_Rank = #{minRank,jdbcType=INTEGER},
+      </if>
+      <if test="logoPath != null" >
+        Logo_Path = #{logoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="rankAppType != null" >
+        Rank_App_Type = #{rankAppType,jdbcType=VARCHAR},
+      </if>
+      <if test="appTypeName != null" >
+        App_Type_Name = #{appTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="sysType != null" >
+        Sys_Type = #{sysType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        Device_Type = #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null" >
+        Publisher = #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        Create_Time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null" >
+        Update_Time = #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="rankDate != null" >
+        Rank_Date = #{rankDate,jdbcType=DATE},
+      </if>
+      <if test="rankType != null" >
+        Rank_Type = #{rankType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.cv.model.RankTemp" >
+    update tbl_app_rank_temp
+    set App_ID = #{appId,jdbcType=VARCHAR},
+      App_Name = #{appName,jdbcType=VARCHAR},
+      This_Rank = #{thisRank,jdbcType=INTEGER},
+      Week_Ago_Rank = #{weekAgoRank,jdbcType=INTEGER},
+      Min_Rank = #{minRank,jdbcType=INTEGER},
+      Logo_Path = #{logoPath,jdbcType=VARCHAR},
+      Rank_App_Type = #{rankAppType,jdbcType=VARCHAR},
+      App_Type_Name = #{appTypeName,jdbcType=VARCHAR},
+      Sys_Type = #{sysType,jdbcType=VARCHAR},
+      Device_Type = #{deviceType,jdbcType=VARCHAR},
+      Publisher = #{publisher,jdbcType=VARCHAR},
+      Create_Time = #{createTime,jdbcType=DATE},
+      Update_Time = #{updateTime,jdbcType=DATE},
+      Rank_Date = #{rankDate,jdbcType=DATE},
+      Rank_Type = #{rankType,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

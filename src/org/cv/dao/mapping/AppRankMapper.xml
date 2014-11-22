@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cv.dao.AppRankDao" >
+  <resultMap id="BaseResultMap" type="org.cv.model.AppRank" >
+    <id column="Id" property="id" jdbcType="BIGINT" />
+    <result column="App_ID" property="appId" jdbcType="BIGINT" />
+    <result column="Rank_Date" property="rankDate" jdbcType="DATE" />
+    <result column="Rank_App_Type" property="rankAppType" jdbcType="VARCHAR" />
+    <result column="Rank" property="rank" jdbcType="INTEGER" />
+    <result column="App_List_Type" property="appListType" jdbcType="INTEGER" />
+    <result column="Download_Num" property="downloadNum" jdbcType="DOUBLE" />
+    <result column="Download_Unit" property="downloadUnit" jdbcType="INTEGER" />
+    <result column="Create_Time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, App_ID, Rank_Date, Rank_App_Type, Rank, App_List_Type, Download_Num, Download_Unit, 
+    Create_Time, Remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_app_rank
+    where Id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tbl_app_rank
+    where Id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <!-- 插入排名 -->
+  <insert id="insertRank" parameterType="org.cv.model.AppInfo" >
+    insert into tbl_app_rank (App_ID, Rank_Date, 
+      Rank_App_Type, Rank, App_List_Type, 
+      Download_Num, Download_Unit, Create_Time, 
+      Remark)
+    values (#{appId}, #{appRank.rankDate}, 
+      #{appRank.rankAppType}, #{appRank.rank}, #{appRank.appListType}, 
+      #{appRank.downloadNum}, #{appRank.downloadUnit}, current_timestamp(), 
+      #{remark})
+  </insert>
+  
+  
+  <insert id="insertSelective" parameterType="org.cv.model.AppRank" >
+    insert into tbl_app_rank
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="appId != null" >
+        App_ID,
+      </if>
+      <if test="rankDate != null" >
+        Rank_Date,
+      </if>
+      <if test="rankAppType != null" >
+        Rank_App_Type,
+      </if>
+      <if test="rank != null" >
+        Rank,
+      </if>
+      <if test="appListType != null" >
+        App_List_Type,
+      </if>
+      <if test="downloadNum != null" >
+        Download_Num,
+      </if>
+      <if test="downloadUnit != null" >
+        Download_Unit,
+      </if>
+      <if test="createTime != null" >
+        Create_Time,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=BIGINT},
+      </if>
+      <if test="rankDate != null" >
+        #{rankDate,jdbcType=DATE},
+      </if>
+      <if test="rankAppType != null" >
+        #{rankAppType,jdbcType=VARCHAR},
+      </if>
+      <if test="rank != null" >
+        #{rank,jdbcType=INTEGER},
+      </if>
+      <if test="appListType != null" >
+        #{appListType,jdbcType=INTEGER},
+      </if>
+      <if test="downloadNum != null" >
+        #{downloadNum,jdbcType=DOUBLE},
+      </if>
+      <if test="downloadUnit != null" >
+        #{downloadUnit,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.cv.model.AppRank" >
+    update tbl_app_rank
+    <set >
+      <if test="appId != null" >
+        App_ID = #{appId,jdbcType=BIGINT},
+      </if>
+      <if test="rankDate != null" >
+        Rank_Date = #{rankDate,jdbcType=DATE},
+      </if>
+      <if test="rankAppType != null" >
+        Rank_App_Type = #{rankAppType,jdbcType=VARCHAR},
+      </if>
+      <if test="rank != null" >
+        Rank = #{rank,jdbcType=INTEGER},
+      </if>
+      <if test="appListType != null" >
+        App_List_Type = #{appListType,jdbcType=INTEGER},
+      </if>
+      <if test="downloadNum != null" >
+        Download_Num = #{downloadNum,jdbcType=DOUBLE},
+      </if>
+      <if test="downloadUnit != null" >
+        Download_Unit = #{downloadUnit,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        Create_Time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.cv.model.AppRank" >
+    update tbl_app_rank
+    set App_ID = #{appId,jdbcType=BIGINT},
+      Rank_Date = #{rankDate,jdbcType=DATE},
+      Rank_App_Type = #{rankAppType,jdbcType=VARCHAR},
+      Rank = #{rank,jdbcType=INTEGER},
+      App_List_Type = #{appListType,jdbcType=INTEGER},
+      Download_Num = #{downloadNum,jdbcType=DOUBLE},
+      Download_Unit = #{downloadUnit,jdbcType=INTEGER},
+      Create_Time = #{createTime,jdbcType=TIMESTAMP},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
