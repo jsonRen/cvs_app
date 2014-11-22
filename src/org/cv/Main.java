@@ -15,7 +15,7 @@ import org.cv.spider.Spider_Fetch_Main;
 import org.cv.spider.thread.SpiderStart;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
+dd
 public class Main {
 	List<Runnable> runList = new ArrayList<Runnable>();
 	Factory factory = new ConcreteFactory();
